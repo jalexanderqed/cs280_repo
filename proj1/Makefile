@@ -1,4 +1,4 @@
-LIBS = -lglut -lGL -lGLU
+LIBS = -lglut -lGL -lGLU -lSOIL
 COMP = g++
 CFLAGS = -Wall
 
