@@ -1,5 +1,5 @@
-LIBS = -lglut -lGL -lGLU -lSOIL
-COMP = g++
+LIBS = -lglut -lGL -lGLU -pedantic -Dcimg_use_vt100 -Dcimg_display=1 -lm -lX11 -lpthread -ljpeg -ltiff
+COMP = g++ -std=c++11
 CFLAGS = -Wall
 
 all: MazeViewer
