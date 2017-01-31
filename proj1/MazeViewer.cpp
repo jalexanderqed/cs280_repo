@@ -76,6 +76,29 @@ void draw() {
         glEnd();
     }
 
+    for(size_t i = 0; i < maze.vertWalls.size(); i++){
+        if(maze.vertWalls[i] == 0) continue;
+        
+        int col = i % maze.width;
+        int row = i / maze.width;
+        float x = col * maze.cellSize;
+        float zMin = row * maze.cellSize;
+        float zMax = zMin + maze.cellSize;
+
+        glBindTexture(GL_TEXTURE_2D,
+                      textureIds[maze.vertWalls[i] - 1]);
+        glBegin(GL_QUADS);
+        glTexCoord2f(0.0f, 0.0f);
+        glVertex3f(x, 0, zMin);
+        glTexCoord2f(1.0f, 0.0f);
+        glVertex3f(x, 0, zMax);
+        glTexCoord2f(1.0f, 1.0f);
+        glVertex3f(x, maze.wallHeight, zMax);
+        glTexCoord2f(0.0f, 1.0f);
+        glVertex3f(x, maze.wallHeight, zMin);
+        glEnd();
+    }
+
     glutSwapBuffers();
 }
 
