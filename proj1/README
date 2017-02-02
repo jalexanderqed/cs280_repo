@@ -1,0 +1,17 @@
+John Alexander
+8327934
+
+Parts 1-2 and part 3 of the assignment are in appropriately named folders. Both should compile with Make and run in CSIL or in any Linux environment with OpenGL and GLUT installed. I used CImg for loading texture files, and the library is included in my submission. To run either part of the project, use:
+
+make
+./MazeViewer <maze file to read>
+
+My maze file is in my_maze.txt and uses some additional images that are included here.
+
+Part 3 should work correctly with arbitrary mazes since it detects the player finishing the maze by the player leaving the maze area.
+
+When playin part 3, messages should appear when the time runs out (60 seconds) and when the player wins by exiting the maze. When the player wins, they are transported 5 * wallHeight above the maze.
+
+To trigger winning without exiting the maze, simply press "p" for testing purposes.
+
+One feature I would like to add is preventing the player from getting close enough to a wall that they can see through it. Unfortunately, this was not easily compatible with the collision detection system I implemented.

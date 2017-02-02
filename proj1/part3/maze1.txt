@@ -11,7 +11,7 @@ TEXTURES 9  # number of textures
 2 wall2.tif
 3 wall3.tif
 4 wall4.tif
-5 wall5.tif #ese
+5 wall5.tif
 6 wall6.tif
 7 wall7.tif
 8 monaLisa.tif
