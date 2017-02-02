@@ -10,7 +10,7 @@ My maze file is in my_maze.txt and uses some additional images that are included
 
 Part 3 should work correctly with arbitrary mazes since it detects the player finishing the maze by the player leaving the maze area.
 
-When playin part 3, messages should appear when the time runs out (60 seconds) and when the player wins by exiting the maze. When the player wins, they are transported 5 * wallHeight above the maze.
+When playing part 3, messages should appear when the time runs out (60 seconds) and when the player wins by exiting the maze. When the player wins, they are transported 5 * wallHeight above the maze.
 
 To trigger winning without exiting the maze, simply press "p" for testing purposes.
 
