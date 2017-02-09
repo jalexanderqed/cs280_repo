@@ -1,12 +1,15 @@
 #ifndef SCENE_H
 #define SCENE_H
 
+#define _USE_MATH_DEFINES
 
 #include <stdlib.h>
 #include <ctype.h>
 #include <string.h>
 #include <assert.h>
+#include <math.h>
 
+#include "Matrix.h"
 #include "Triangle.h"
 #include "mouse.h"
 
@@ -23,6 +26,12 @@ class Scene {
 		/* the scene class is basically a linked list of triangles */
 		TriangleList *original_head;
 		TriangleList *original_tail;
+		Matrix perspectiveMat;
+		Matrix modelViewMat;
+		Matrix viewspaceMat;
+
+		Triangle vertTransform(Triangle t);
+		void rasterize(Triangle t);
 
 	public:
 		Scene() {
@@ -99,6 +108,17 @@ class Scene {
 			t2->setCoords(1, 0, 1);
 			t2->setCoords(2, 0, 0);
 
+			int r = rand() % 256;
+			int g = rand() % 256;
+			int b = rand() % 256;
+
+			t1->setColor(0, r, g, b);
+			t1->setColor(1, r, g, b);
+			t1->setColor(2, r, g, b);
+			t2->setColor(0, r, g, b);
+			t2->setColor(1, r, g, b);
+			t2->setColor(2, r, g, b);
+
 			t1->setTexture(tex);
 			t2->setTexture(tex);
 
@@ -125,6 +145,17 @@ class Scene {
 			t2->setCoords(0, scene_width/4.0, scene_height/4.0);
 			t2->setCoords(1, 0, scene_height/4.0);
 			t2->setCoords(2, 0, 0);
+
+			int r = rand() % 256;
+			int g = rand() % 256;
+			int b = rand() % 256;
+
+			t1->setColor(0, r, g, b);
+			t1->setColor(1, r, g, b);
+			t1->setColor(2, r, g, b);
+			t2->setColor(0, r, g, b);
+			t2->setColor(1, r, g, b);
+			t2->setColor(2, r, g, b);
 
 			t1->setTexture(tex);
 			t2->setTexture(tex);
@@ -154,14 +185,15 @@ class Scene {
 		};	
 
 		void renderSceneSoftware(void);
+		bool shouldDisplay(Triangle t);
+
+		friend void setPerspectiveProjection(float eye_fov, float aspect_ratio, float nearC, float farC);
+		friend void setModelviewMatrix(float *eye_pos, float eye_theta, float eye_phi);
+		friend void setViewspaceTransform();
 };
 
 void loadScene(char *name);
 void setDefaults(void);
 void sceneCleanup(void);
-
-
-void setPerspectiveProjection(float eye_fov, float aspect_ratio, float near, float far);
-void setModelviewMatrix(float *eye_pos, float eye_theta, float eye_phi);
 
 #endif		/* SCENE_H */

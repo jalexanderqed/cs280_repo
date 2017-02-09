@@ -29,6 +29,10 @@ class Vertex {
 		void print(void) {
 			fprintf(stderr,"[%f %f %f %f]\n", x, y, z, w);
 		}
+
+		Vertex operator*(float val) {
+			return Vertex(val * x, val * y, val * z, val * w);
+		}
 };
 
 #endif		/* VERTEX_H */s

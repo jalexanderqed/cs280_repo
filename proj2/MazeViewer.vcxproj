@@ -38,6 +38,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
     <IntDir>$(Configuration)\</IntDir>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
@@ -61,6 +62,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="SoftwareRenderer\Matrix.cpp" />
     <ClCompile Include="SoftwareRenderer\FrameBuffer.cpp" />
     <ClCompile Include="SoftwareRenderer\mainMaze.cpp" />
     <ClCompile Include="SoftwareRenderer\mouse.cpp" />
@@ -71,6 +73,10 @@
     <ClCompile Include="SoftwareRenderer\Triangle.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="SoftwareRenderer\Matrix.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="SoftwareRenderer\FrameBuffer.h" />
     <ClInclude Include="SoftwareRenderer\gl.h" />
     <ClInclude Include="SoftwareRenderer\globals.h" />

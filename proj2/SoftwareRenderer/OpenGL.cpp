@@ -15,7 +15,7 @@
 extern FrameBuffer fb;
 extern Scene scene;
 
-bool opengl_test = true;
+bool opengl_test = false;
 bool bilerp_flag = false;
 
 Timer timer1;

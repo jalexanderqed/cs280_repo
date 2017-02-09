@@ -2,6 +2,7 @@
 #include "OpenGL.h"
 #include "Scene.h"
 #include "FrameBuffer.h"
+#include "Matrix.h"
 
 Scene scene;
 FrameBuffer fb(window_width, window_height);

@@ -11,16 +11,16 @@
 /* implements the triangle class */
 class Triangle {
 	private:
+	public:
 		Vertex v[3];		/* the original vertices of the triangle */
 
-		/* per-vertex values */
+							/* per-vertex values */
 		float c[3][3];		/* color at each vertex */
 		float coords[3][2];
 
 		/* point to the texture that is bound, if any */
 		Texture *tex;
 
-	public:
 		/* constructors */
 		Triangle() {
 			v[0].set(0, 0, 0);
@@ -47,6 +47,22 @@ class Triangle {
 			c[1][0] = 0.0;	c[1][1] = 0.0;	c[1][2] = 0.0;
 			c[2][0] = 0.0;	c[2][1] = 0.0;	c[2][2] = 0.0;
 			
+			coords[0][0] = 0.0;		coords[0][1] = 0.0;		coords[0][2] = 0.0;
+			coords[1][0] = 0.0;		coords[1][1] = 0.0;		coords[1][2] = 0.0;
+			coords[2][0] = 0.0;		coords[2][1] = 0.0;		coords[2][2] = 0.0;
+
+			tex = NULL;
+		};
+
+		Triangle(Vertex v0, Vertex v1, Vertex v2) {
+			v[0] = (v0);
+			v[1] = (v1);
+			v[2] = (v2);
+
+			c[0][0] = 0.0;	c[0][1] = 0.0;	c[0][2] = 0.0;
+			c[1][0] = 0.0;	c[1][1] = 0.0;	c[1][2] = 0.0;
+			c[2][0] = 0.0;	c[2][1] = 0.0;	c[2][2] = 0.0;
+
 			coords[0][0] = 0.0;		coords[0][1] = 0.0;		coords[0][2] = 0.0;
 			coords[1][0] = 0.0;		coords[1][1] = 0.0;		coords[1][2] = 0.0;
 			coords[2][0] = 0.0;		coords[2][1] = 0.0;		coords[2][2] = 0.0;
