@@ -58,6 +58,29 @@ class Texture {
 			color[1] = *(ptr + 1);
 			color[2] = *(ptr + 2);
 		}
+
+		void getInterColor(float uf, float vf, u08 *color) {
+			float u = uf * width;
+			float v = vf * height;
+			int uMin = (int)floor(u) % width;
+			int uMax = (int)ceil(u) % width;
+			int vMin = (int)floor(v) % height;
+			int vMax = (int)ceil(v) % height;
+
+			u08 *a, *b, *c, *d;
+			a = data + (((vMax * width) + uMin) * 3);
+			b = data + (((vMax * width) + uMax) * 3);
+			c = data + (((vMin * width) + uMin) * 3);
+			d = data + (((vMin * width) + uMax) * 3);
+
+			float alpha = u - uMin;
+			float beta = v - vMin;
+
+			for (int i = 0; i < 3; i++) {
+				color[i] = beta * ((1 - alpha) * a[i] + alpha * b[i]) +
+					(1 - beta) * ((1 - alpha) * c[i] + alpha * d[i]);
+			}
+		}
 		
 		/* switches between nearest neighbor and bilinear interpolation */
 		void switchTextureFiltering(bool flag);

@@ -7,10 +7,10 @@ I have not made any changes to the Visual Studio solution that would cause it to
 >msbuild MazeViewer.sln
 >Debug\MazeViewer.exe maze1.txt
 
-As with th initial code, pressing space switches between software and OpenGL rendering modes. The game starts in OpenGL rendering mode.
+As with the initial code, pressing space switches between software and OpenGL rendering modes. The game starts in OpenGL rendering mode. Note that per the assignment, I have modified the OpenGL rendering so that only triangles lying completely inside the scene are drawn.
 
-As described in the assignment, triangles are clipped if any of their vertices are outside the screen. The triangles are initialized with random colors, and both triangles in each square are the same color.
+The triangles drawn the software rendering pipeline should match up almost perfectly with those drawn with OpenGL. There may be a slight amount of vertical stretching or compression because the title bar of the window appears to be included in the height value used by the software rendering but is not included by OpenGL. I have done my best to rectify this by reducing the height value when constructing the matrix that transforms to screen coordinates, but this is probably display-specific.
 
-As expected, debugging took the most time during this project. Frequently, my implementation of the functions was correct, but I had messed up an earlier call that was intended to test them and got erroneous behavior as a result of that.
+The massive drop in framerate when using the software rendering is due to the repeated calculation of Barycentric coordinates for each pixel of each triangle. This is as requested in the assignment and will be rectified in the next lab.
 
-One of the most interesting things in this assignment was the massive performance improvement when I implemented the iterative algorithm for checking if a point lies inside a triangle. Using a separate, non-iterative function, the program ran at 2-5 frames per second in software rendering mode, but with the iterative method, my framerate immediately jumped past thirty FPS. This large difference also probably had something to do with the high resolution of my monitor.
+As requested, I have implemented bilinear interpolation of the texture values. This can best be seen when comparing the OpenGL rendering of the Mona Lisa (which can be seen from the starting position if the camera is rotated) to the software version. The OpenGL version is quite pixelated while my rendering is much smoother.

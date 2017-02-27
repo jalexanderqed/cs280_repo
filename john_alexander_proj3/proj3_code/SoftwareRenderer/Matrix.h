@@ -56,7 +56,7 @@ public:
 
 Vertex cross(Vertex a, Vertex b);
 float dot(Vertex a, Vertex b, bool useThree = true);
-bool insideTriangle(float x1, float y1, float x2, float y2, float x3, float y3, float x, float y);
-float heron(Vertex p1, Vertex p2, Vertex p3);
+float distance(const Vertex& p1, const Vertex& p2);
+float heron(const Vertex& p1, const Vertex& p2, const Vertex& p3);
 
 #endif

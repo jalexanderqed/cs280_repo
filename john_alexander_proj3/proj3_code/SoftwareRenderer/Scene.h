@@ -175,7 +175,11 @@ class Scene {
 
 			/* now render the triangles in the list */
 			for (ptr = original_head; ptr;) {
-				ptr->t->renderOpenGL();
+				Triangle transformed = vertTransform(*(ptr->t));
+
+				if (shouldDisplay(transformed)) {
+					ptr->t->renderOpenGL();
+				}
 				ptr = ptr->next;
 			}
 			

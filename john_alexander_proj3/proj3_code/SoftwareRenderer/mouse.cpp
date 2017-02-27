@@ -72,6 +72,11 @@ void computeProjectionMatrix(void) {
 					   (double)window_width/(double)window_height, /* aspect ratio */
 						0.1,		/* near plane */
 						700);		/* far plane */
+
+		// TODO: remove later, this is just for clipping
+		setPerspectiveProjection(eye_fov,
+			(double)window_width / (double)window_height,
+			0.1, 700);
 	}
 	else {
 		/* software rendering mode */
@@ -99,6 +104,9 @@ void computeModelViewMatrix(void) {
 		
 		/* translate to get the eye origin in the center of the coordinate system */
 		glTranslatef(-eye_pos[0], -eye_pos[1], -eye_pos[2]);
+
+		// TODO: Remove later. This is just for clipping
+		setModelviewMatrix(eye_pos, eye_theta, eye_phi);
 	}
 	else {
 		/* software rendering mode */

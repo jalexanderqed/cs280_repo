@@ -44,9 +44,10 @@ void setModelviewMatrix(float *eye_pos, float eye_theta, float eye_phi) {
 }
 
 void setViewspaceTransform() {
+	int actualHeight = fb.height - 20;
 	scene.viewspaceMat = Matrix(
 		fb.width / 2.0f, 0, 0, fb.width / 2.0f,
-		0, fb.height / 2.0f, 0, fb.height / 2.0f,
+		0, actualHeight / 2.0f, 0, actualHeight / 2.0f,
 		0, 0, 1, 0,
 		0, 0, 0, 1
 	);
@@ -88,6 +89,19 @@ void Scene::rasterize(Triangle oTriangle) {
 	float e1 = dot(p, f1);
 	float e2 = dot(p, f2);
 
+	float invW[3] = {
+		1.0f / oTriangle.v[0].w,
+		1.0f / oTriangle.v[1].w,
+		1.0f / oTriangle.v[2].w 
+	};
+
+	Vertex withW[3] = {
+		Vertex(oTriangle.coords[0][0] / oTriangle.v[0].w, oTriangle.coords[0][1] / oTriangle.v[0].w, t.v[0].z / oTriangle.v[0].w, 0),
+		Vertex(oTriangle.coords[1][0] / oTriangle.v[1].w, oTriangle.coords[1][1] / oTriangle.v[1].w, t.v[1].z / oTriangle.v[1].w, 0),
+		Vertex(oTriangle.coords[2][0] / oTriangle.v[2].w, oTriangle.coords[2][1] / oTriangle.v[2].w, t.v[2].z / oTriangle.v[2].w, 0)
+	};
+
+
 	for (int i = xMin; i <= xMax && i < fb.width; i++) {
 		for (int j = yMin; j <= yMax && j < fb.height; j++) {
 			if ((e0 >= 0 &&
@@ -100,28 +114,27 @@ void Scene::rasterize(Triangle oTriangle) {
 				float a0 = heron(v1, v2, currentP);
 				float a1 = heron(v0, v2, currentP);
 				float a2 = heron(v0, v1, currentP);
-				float weight0 = a0 / (a0 + a1 + a2);
-				float weight1 = a1 / (a0 + a1 + a2);
-				float weight2 = a2 / (a0 + a1 + a2);
+				float weights[3] = {
+					a0 / (a0 + a1 + a2),
+					a1 / (a0 + a1 + a2),
+					a2 / (a0 + a1 + a2)
+				};
 
-				float texX = weight0 * oTriangle.coords[0][0]
-					+ weight1 * oTriangle.coords[1][0]
-					+ weight2 * oTriangle.coords[2][0];
-				float texY = weight0 * oTriangle.coords[0][1]
-					+ weight1 * oTriangle.coords[1][1]
-					+ weight2 * oTriangle.coords[2][1];
+				Vertex interpolatedVec(0, 0, 0, 0);
+				for (int i = 0; i < 3; i++) {
+					interpolatedVec += (withW[i] * weights[i]);
+				}
 
-				float zVal = weight0 * t.v[0].z +
-					weight1 * t.v[1].z +
-					weight2 * t.v[2].z;
-				if (fb.updateDepthBuffer(i, j, zVal)) {
+				float interpolatedW = 0;
+				for (int i = 0; i < 3; i++) {
+					interpolatedW += invW[i] * weights[i];
+				}
+
+				interpolatedVec *= 1 / interpolatedW;
+
+				if (fb.updateDepthBuffer(i, j, interpolatedVec.z)) {
 					u08* pix = fb.getColorPtr(i, j);
-					oTriangle.tex->getNearestColor(texX, texY, pix);
-
-					/*
-					pix[0] = (u08)(weight0 * 255);
-					pix[1] = (u08)(weight1 * 255);
-					pix[2] = (u08)(weight2 * 255);*/
+					oTriangle.tex->getInterColor(interpolatedVec.x, interpolatedVec.y, pix);
 				}
 			}
 			e0 += f0.y;
@@ -164,7 +177,6 @@ void Scene::renderSceneSoftware(void) {
 	setViewspaceTransform();
 
 	for (TriangleList* ptr = original_head; ptr; ptr = ptr->next) {
-		ptr->t->renderOpenGL();
 		Triangle transformed = vertTransform(*(ptr->t));
 
 		if (shouldDisplay(transformed)) {

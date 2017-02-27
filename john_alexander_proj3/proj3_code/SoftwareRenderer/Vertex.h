@@ -33,6 +33,26 @@ class Vertex {
 		Vertex operator*(float val) {
 			return Vertex(val * x, val * y, val * z, val * w);
 		}
+
+		Vertex operator*=(float val) {
+			x *= val;
+			y *= val;
+			z *= val;
+			w *= val;
+			return *this;
+		}
+
+		Vertex operator+(const Vertex& v) {
+			return Vertex(x + v.x, y + v.y, z + v.z, w + v.w);
+		}
+
+		Vertex operator+=(const Vertex& v) {
+			x += v.x;
+			y += v.y;
+			z += v.z;
+			w += v.w;
+			return *this;
+		}
 };
 
 #endif		/* VERTEX_H */s

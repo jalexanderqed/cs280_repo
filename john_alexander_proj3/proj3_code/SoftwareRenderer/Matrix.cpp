@@ -75,14 +75,14 @@ bool insideTriangle(float x1, float y1, float x2, float y2, float x3, float y3, 
 	return false;
 }
 
-float distance(Vertex p1, Vertex p2) {
+float distance(const Vertex& p1, const Vertex& p2) {
 	float xDif = p1.x - p2.x;
 	float yDif = p1.y - p2.y;
 	float zDif = p1.z - p2.z;
 	return sqrt(xDif * xDif + yDif * yDif + zDif * zDif);
 }
 
-float heron(Vertex p1, Vertex p2, Vertex p3) {
+float heron(const Vertex& p1, const Vertex& p2, const Vertex& p3) {
 	float l1 = distance(p1, p2);
 	float l2 = distance(p2, p3);
 	float l3 = distance(p3, p1);
