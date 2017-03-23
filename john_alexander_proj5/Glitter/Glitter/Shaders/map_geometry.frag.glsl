@@ -11,7 +11,6 @@ struct PointLight{
 uniform sampler2D texture_diffuse1;
 uniform sampler2D texture_normal1;
 uniform sampler2D texture_specular1;
-uniform float farClip;
 
 uniform PointLight pointLights[3];
 uniform vec3 pPos;
@@ -19,8 +18,6 @@ uniform vec3 pPos;
 in vec2 TexCoordsG;
 in vec3 NormalG;
 in vec4 worldPos;
-
-float ambientStrength = 0.3f;
 
 vec3 pointLightContrib(PointLight light, vec3 normal, vec3 eyeDir, vec3 wFragPos){
 	vec3 outDir = normalize(light.position - wFragPos);
@@ -44,10 +41,10 @@ void main()
 	vec3 wFragPos = vec3(worldPos);
 	vec3 norm = normalize(NormalG);
 	vec3 eyeDir = normalize(pPos - wFragPos);
-	color = vec4(0, 0, 0, 0);
 
+	color = vec4(0, 0, 0, 0);
 	color += vec4(pointLightContrib(pointLights[0], norm, eyeDir, wFragPos), 1);
 	color += vec4(pointLightContrib(pointLights[1], norm, eyeDir, wFragPos), 1);
 	color += vec4(pointLightContrib(pointLights[2], norm, eyeDir, wFragPos), 1);
-	color += ambientStrength * vec3(texture(texture_diffuse1, TexCoordsG));
+	color += 0.3f * vec3(texture(texture_diffuse1, TexCoordsG));
 }

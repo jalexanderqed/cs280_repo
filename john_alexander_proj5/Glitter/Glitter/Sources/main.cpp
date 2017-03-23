@@ -101,6 +101,15 @@ int main(int argc, char * argv[]) {
     gladLoadGL();
     fprintf(stderr, "OpenGL %s\n", glGetString(GL_VERSION));
 
+	cout << "Mouse to rotate, WASD to move"
+		<< "\n(I removed the click-and-drag rotation)"
+		<< "\n\n\t- Press L to switch to light movement mode"
+		<< "\n\t\tWhile in this mode, press SPACE to switch lights"
+		<< "\n\t\tWASD will move the lights according to the player's orientation"
+		<< "\n\n\t- Press M to switch between SSAO and full rendering mode"
+		<< "\n\nI did not implement SSDO because I ran into a bug with GLSL"
+		<< "\n(seriously, I can demonstrate it), and decided enough was enough." << endl;
+
 	// Set callback functions
 	glfwSetKeyCallback(mWindow, key_callback);
 	glfwSetCursorPosCallback(mWindow, mouse_callback);
@@ -130,9 +139,9 @@ int main(int argc, char * argv[]) {
 		FileSystem::getPath("Shaders/ssdo_geometry.frag.glsl").c_str());
 	depthShader = Shader(FileSystem::getPath("Shaders/pre_ssao_geometry.vert.glsl").c_str(),
 		FileSystem::getPath("Shaders/pre_ssao_geometry.frag.glsl").c_str());
-	mapShader = Shader(FileSystem::getPath("Shaders/map_geometry.vert.glsl").c_str(),
+	/*mapShader = Shader(FileSystem::getPath("Shaders/map_geometry.vert.glsl").c_str(),
 		FileSystem::getPath("Shaders/map_geometry.frag.glsl").c_str(),
-		FileSystem::getPath("Shaders/shadow_geometry.geom.glsl").c_str());
+		FileSystem::getPath("Shaders/shadow_geometry.geom.glsl").c_str());*/
 
 	// Load a model from obj file
 	sampleModel = Model(FileSystem::getPath("Resources/crytek_sponza/sponza.obj").c_str());
@@ -193,18 +202,22 @@ int main(int argc, char * argv[]) {
 			renderDepthTex();
 			currentShader->Use();
 		}
+		/*
 		else {
 			currentShader = &ssdoShader;
 			currentShader->Use();
 		}
+		*/
 
 		glUniform1i(glGetUniformLocation(currentShader->Program, "positionTex"), 5);
 		glActiveTexture(GL_TEXTURE0 + 5);
 		glBindTexture(GL_TEXTURE_2D, ambPositionTex);
 
+		/*
 		glActiveTexture(GL_TEXTURE0 + 8);
 		glUniform1i(glGetUniformLocation(currentShader->Program, "mainMapTex"), 8);
 		glBindTexture(GL_TEXTURE_CUBE_MAP, mainMapTex);
+		*/
 
 		for (int i = 0; i < NUM_AMB_PROBES; i++) {
 			glUniform3fv(glGetUniformLocation(currentShader->Program, ("probes[" + to_string(i) + "]").c_str()), 1, glm::value_ptr(ambProbes[i]));
@@ -603,7 +616,6 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 		}
 		break;
 	}
-	//cout << glm::to_string(camera.Position) << endl;
 }
 
 GLfloat lastX = 400, lastY = 300;

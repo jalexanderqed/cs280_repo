@@ -9,7 +9,6 @@ in vec2 TexCoords[];
 
 out vec2 TexCoordsG;
 out vec3 NormalG;
-
 out vec4 worldPos;
 
 void main(){
